@@ -4,8 +4,7 @@
 # Provided under MIT                              #
 ###################################################
 
-## A tiny bespoke popup management system to avoid using viewports for simple
-## panels.
+## A tiny bespoke popup management system to avoid using viewports for simple panels.
 class_name PopupManager extends CanvasLayer
 
 enum Direction {

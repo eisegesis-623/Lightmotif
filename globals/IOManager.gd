@@ -19,7 +19,7 @@ func initialize_song() -> void:
 func _try_load_song_from_args() -> bool:
 	var args := OS.get_cmdline_args()
 	for arg in args:
-		if arg.ends_with(".ceol"):
+		if arg.ends_with(".motif"):
 			return _load_ceol_song_confirmed(arg)
 	
 	return false
@@ -58,8 +58,8 @@ func create_new_song_safe() -> void:
 func load_ceol_song() -> void:
 	var load_dialog := Controller.get_file_dialog()
 	load_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-	load_dialog.title = "Load .ceol Song"
-	load_dialog.add_filter("*.ceol", "Bosca Ceoil Song")
+	load_dialog.title = "Load .motif Song"
+	load_dialog.add_filter("*.motif", "Motif Graph File")
 	load_dialog.current_file = ""
 	load_dialog.file_selected.connect(_load_ceol_song_confirmed, CONNECT_ONE_SHOT)
 	
@@ -104,8 +104,8 @@ func save_ceol_song(save_as: bool = false) -> void:
 	
 	var save_dialog := Controller.get_file_dialog()
 	save_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
-	save_dialog.title = "Save .ceol Song As" if save_as else "Save .ceol Song"
-	save_dialog.add_filter("*.ceol", "Bosca Ceoil Song")
+	save_dialog.title = "Save .motif Song As" if save_as else "Save .motif Song"
+	save_dialog.add_filter("*.motif", "Motif Graph File")
 	save_dialog.current_file = Controller.current_song.get_safe_filename()
 	save_dialog.file_selected.connect(_save_ceol_song_confirmed, CONNECT_ONE_SHOT)
 	

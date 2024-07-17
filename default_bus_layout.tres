@@ -6,5 +6,6 @@ threshold = -5.0
 ratio = 8.0
 
 [resource]
+bus/0/volume_db = 6.02
 bus/0/effect/0/effect = SubResource("AudioEffectCompressor_l1smn")
 bus/0/effect/0/enabled = true

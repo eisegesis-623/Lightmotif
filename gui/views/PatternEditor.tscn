@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://byfh0p3nqrosa"]
+[gd_scene load_steps=9 format=3 uid="uid://byfh0p3nqrosa"]
 
 [ext_resource type="Script" path="res://gui/views/PatternEditor.gd" id="1_eqswn"]
 [ext_resource type="PackedScene" uid="uid://dciyoa2wkbtfp" path="res://gui/views/note_map/NoteMap.tscn" id="1_jt24t"]
@@ -6,8 +6,20 @@
 [ext_resource type="Texture2D" uid="uid://34gjffqqcubk" path="res://assets/icons/plus.png" id="4_67s6m"]
 [ext_resource type="Texture2D" uid="uid://3r61aokrspvu" path="res://assets/icons/record.png" id="4_pyo8q"]
 [ext_resource type="Texture2D" uid="uid://os3udjkncg7b" path="res://assets/icons/minus.png" id="5_0tk4a"]
+[ext_resource type="Script" path="res://gui/views/KeyPickerSignalBonus.gd" id="7_1y7sl"]
 
-[node name="PatternEditor" type="VBoxContainer"]
+[sub_resource type="GDScript" id="GDScript_8evop"]
+script/source = "extends Button
+
+
+
+
+
+func _on_pressed() -> void:
+	Controller.play_pause()
+"
+
+[node name="PatternEditor" type="VBoxContainer" groups=["PatternEditor"]]
 auto_translate_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,6 +40,11 @@ theme_type_variation = &"PatternSettingsPanel"
 auto_translate_mode = 1
 layout_mode = 2
 theme_type_variation = &"PatternSettingsBar"
+
+[node name="PlayPause" type="Button" parent="PatternSettings/PropertyBar"]
+layout_mode = 2
+text = "Play/Pause"
+script = SubResource("GDScript_8evop")
 
 [node name="PickerPanel" type="PanelContainer" parent="PatternSettings/PropertyBar"]
 layout_mode = 2
@@ -115,3 +132,8 @@ custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 direction = 2
 placeholder_text = "K"
+
+[node name="KeyPickerSignalBonus" type="Node" parent="PatternSettings/PropertyBar/PickerPanel3/KeyPicker"]
+script = ExtResource("7_1y7sl")
+
+[connection signal="pressed" from="PatternSettings/PropertyBar/PlayPause" to="PatternSettings/PropertyBar/PlayPause" method="_on_pressed"]

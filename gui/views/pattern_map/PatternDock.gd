@@ -130,7 +130,7 @@ func _get_total_item_amount() -> int:
 func _get_current_item_index() -> int:
 	if Engine.is_editor_hint() || not Controller.current_song:
 		return -1
-	
+
 	return Controller.current_pattern_index
 
 

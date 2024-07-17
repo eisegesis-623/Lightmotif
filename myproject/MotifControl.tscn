@@ -1,0 +1,229 @@
+[gd_scene load_steps=6 format=3 uid="uid://b6qye26la63tj"]
+
+[ext_resource type="Script" path="res://myproject/MotifControl.gd" id="1_mbts8"]
+[ext_resource type="Script" path="res://myproject/Subnodes/LeitmotifsOption.gd" id="2_qhoqd"]
+[ext_resource type="Script" path="res://myproject/PopupButton.gd" id="3_00x7f"]
+[ext_resource type="Texture2D" uid="uid://duqkjr1s1hhx8" path="res://myproject/trashcan.png" id="3_1vwsg"]
+[ext_resource type="PackedScene" uid="uid://b2mimhxcc5uut" path="res://myproject/Subnodes/RelatedMotifChooser.tscn" id="4_cboyl"]
+
+[node name="MotifControl" type="HBoxContainer" groups=["MotifControl"]]
+theme_override_constants/separation = 8
+script = ExtResource("1_mbts8")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="OrderUp" type="Button" parent="VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+text = "^"
+
+[node name="SelectButton" type="Button" parent="VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+text = "Select"
+
+[node name="OrderDown" type="Button" parent="VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+text = "v"
+
+[node name="LeitmotifsOption" type="OptionButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/h_separation = 0
+theme_override_font_sizes/font_size = 0
+clip_text = true
+fit_to_longest_item = false
+script = ExtResource("2_qhoqd")
+
+[node name="MotifNameEdit" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+placeholder_text = "Motif Name"
+expand_to_text_length = true
+
+[node name="HFlowContainer" type="HFlowContainer" parent="."]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+alignment = 1
+
+[node name="TimeSignatureEdit" type="LineEdit" parent="HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "4/4
+"
+placeholder_text = "4/4"
+
+[node name="KeyOption" type="OptionButton" parent="HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+selected = 0
+item_count = 12
+popup/item_0/text = "C"
+popup/item_1/text = "C#/Db"
+popup/item_1/id = 1
+popup/item_2/text = "D"
+popup/item_2/id = 2
+popup/item_3/text = "D#/Eb"
+popup/item_3/id = 3
+popup/item_4/text = "E"
+popup/item_4/id = 4
+popup/item_5/text = "F"
+popup/item_5/id = 5
+popup/item_6/text = "F#/Gb"
+popup/item_6/id = 6
+popup/item_7/text = "G"
+popup/item_7/id = 7
+popup/item_8/text = "G#/Ab"
+popup/item_8/id = 8
+popup/item_9/text = "A"
+popup/item_9/id = 9
+popup/item_10/text = "A#/Bb"
+popup/item_10/id = 10
+popup/item_11/text = "B"
+popup/item_11/id = 11
+
+[node name="ModeOption" type="OptionButton" parent="HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+selected = 5
+item_count = 16
+popup/item_0/text = "Ionian"
+popup/item_1/text = "Dorian"
+popup/item_1/id = 1
+popup/item_2/text = "Phrygian"
+popup/item_2/id = 2
+popup/item_3/text = "Lydian"
+popup/item_3/id = 3
+popup/item_4/text = "Mixolydian"
+popup/item_4/id = 4
+popup/item_5/text = "Aeolian"
+popup/item_5/id = 5
+popup/item_6/text = "Locrian"
+popup/item_6/id = 6
+popup/item_7/text = "Chromatic"
+popup/item_7/id = 14
+popup/item_8/text = "Whole Tone"
+popup/item_8/id = 15
+popup/item_9/text = "Blues"
+popup/item_9/id = 13
+popup/item_10/text = "Harmonic Minor"
+popup/item_10/id = 11
+popup/item_11/text = "Melodic Minor"
+popup/item_11/id = 12
+popup/item_12/text = "Pentatonic Major"
+popup/item_12/id = 7
+popup/item_13/text = "Pentatonic Minor"
+popup/item_13/id = 8
+popup/item_14/text = "Neapolitan Major"
+popup/item_14/id = 9
+popup/item_15/text = "Neapolitan Minor"
+popup/item_15/id = 10
+
+[node name="BPMSpinBox" type="SpinBox" parent="HFlowContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1000.0
+value = 120.0
+suffix = "bpm"
+
+[node name="PatternSize1SpinBox" type="SpinBox" parent="HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 99.0
+value = 32.0
+
+[node name="PatternSize2SpinBox" type="SpinBox" parent="HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 256.0
+value = 128.0
+
+[node name="NotesPopupButton" type="Button" parent="HFlowContainer" node_paths=PackedStringArray("popup", "focus_grabber")]
+layout_mode = 2
+action_mode = 0
+text = "Notes"
+script = ExtResource("3_00x7f")
+popup = NodePath("PopupPanel")
+focus_grabber = NodePath("PopupPanel/AdditionalDescription")
+
+[node name="PopupPanel" type="PopupPanel" parent="HFlowContainer/NotesPopupButton"]
+position = Vector2i(438, 372)
+size = Vector2i(500, 250)
+min_size = Vector2i(500, 100)
+
+[node name="AdditionalDescription" type="TextEdit" parent="HFlowContainer/NotesPopupButton/PopupPanel"]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 496.0
+offset_bottom = 246.0
+placeholder_text = "Placeholder Text"
+wrap_mode = 1
+
+[node name="RelatedPatternsPopupButton" type="Button" parent="HFlowContainer" node_paths=PackedStringArray("popup")]
+layout_mode = 2
+text = "(Related)"
+script = ExtResource("3_00x7f")
+popup = NodePath("PopupPanel")
+
+[node name="PopupPanel" type="PopupPanel" parent="HFlowContainer/RelatedPatternsPopupButton"]
+auto_translate_mode = 1
+position = Vector2i(238, 297)
+size = Vector2i(870, 250)
+min_size = Vector2i(500, 100)
+
+[node name="RelatedMotifsContainer" type="GridContainer" parent="HFlowContainer/RelatedPatternsPopupButton/PopupPanel"]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 866.0
+offset_bottom = 246.0
+columns = 6
+
+[node name="AddButton" type="Button" parent="HFlowContainer/RelatedPatternsPopupButton/PopupPanel/RelatedMotifsContainer" node_paths=PackedStringArray("popup")]
+layout_mode = 2
+text = "Add"
+script = ExtResource("3_00x7f")
+popup = NodePath("PopupPanel")
+
+[node name="PopupPanel" type="PopupPanel" parent="HFlowContainer/RelatedPatternsPopupButton/PopupPanel/RelatedMotifsContainer/AddButton"]
+size = Vector2i(223, 116)
+
+[node name="RelatedMotifChooser" parent="HFlowContainer/RelatedPatternsPopupButton/PopupPanel/RelatedMotifsContainer/AddButton/PopupPanel" instance=ExtResource("4_cboyl")]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 219.0
+offset_bottom = 112.0
+
+[node name="DeleteButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("3_1vwsg")
+
+[connection signal="item_selected" from="LeitmotifsOption" to="LeitmotifsOption" method="_on_item_selected"]
+[connection signal="text_changed" from="HFlowContainer/TimeSignatureEdit" to="." method="_on_time_signature_edit_text_changed"]
+[connection signal="item_selected" from="HFlowContainer/KeyOption" to="." method="_on_key_option_item_selected"]
+[connection signal="item_selected" from="HFlowContainer/ModeOption" to="." method="_on_mode_option_item_selected"]
+[connection signal="text_changed" from="HFlowContainer/NotesPopupButton/PopupPanel/AdditionalDescription" to="." method="_on_additional_description_text_changed"]
+[connection signal="pressed" from="HFlowContainer/RelatedPatternsPopupButton" to="." method="_on_related_patterns_popup_button_pressed"]
+[connection signal="motif_chosen" from="HFlowContainer/RelatedPatternsPopupButton/PopupPanel/RelatedMotifsContainer/AddButton/PopupPanel/RelatedMotifChooser" to="." method="_on_related_motif_chooser_motif_chosen"]
+[connection signal="pressed" from="DeleteButton" to="." method="_on_delete_button_pressed"]

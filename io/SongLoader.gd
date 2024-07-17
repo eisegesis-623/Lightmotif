@@ -271,15 +271,136 @@ static func _load_v3(reader: SongFileReader) -> Song:
 			channels[j] = reader.read_int()
 		song.arrangement.timeline_bars[i] = channels
 	
-	var remainder := reader.get_read_remainder()
-	if remainder > 0:
-		printerr("SongLoader: Invalid song file at '%s' contains excessive data (%d)." % [ reader.get_path(), remainder ])
+	#var remainder := reader.get_read_remainder()
+	#if remainder > 0:
+		#printerr("SongLoader: Invalid song file at '%s' contains excessive data (%d)." % [ reader.get_path(), remainder ])
 	
+	## Starting MYTOOL
+	load_global_parameters(reader)
+	load_motif_nodes(reader,song)
 	return song
+
+static func load_global_parameters(reader:SongFileReader):
+	pass
+
+static func load_motif_nodes(reader:SongFileReader,song:Song):
+	var motif_nodes_size = reader.read_int()
+	for i in Controller.graph.motif_nodes:
+		i.free()
+	Controller.graph.motif_nodes.clear()
+	
+	for i in range(motif_nodes_size):
+		var new_node :MotifNode= load("res://myproject/GraphNode.tscn").instantiate()
+		Controller.graph.create_motif_node(false,new_node)
+		new_node.name = reader.read_string()
+		new_node.position_offset.x = reader.read_int()
+		new_node.position_offset.y = reader.read_int()
+		
+		new_node.graph_node_name_edit.text = reader.read_string()
+		new_node.chord_progression_edit.text = reader.read_string()
+		new_node.notes_edit.text = reader.read_string()
+		
+		var motif_controls_size = reader.read_int()
+		for ii in range(motif_controls_size):
+			var motif_control := new_node.add_motif_control()
+			
+			var pattern_index = reader.read_int()
+			motif_control.leitmotifs_option.get_song_patterns(song)
+			motif_control.leitmotifs_option.set_selected(pattern_index,song)
+			
+			motif_control.associated_pattern.motif_name = reader.read_string()
+			motif_control.associated_pattern.time_signature = reader.read_string()
+			
+			motif_control.associated_pattern.motif_bpm = reader.read_int()
+			motif_control.associated_pattern.pattern_length.x = reader.read_int()
+			motif_control.associated_pattern.pattern_length.y = reader.read_int()
+			motif_control.associated_pattern.key = reader.read_int()
+			motif_control.associated_pattern.scale_mode = reader.read_int()
+			
+			motif_control.associated_pattern.additional_description = reader.read_string()
+			
+	## Later, once all nodes have been added...
+	for i in Controller.graph.motif_nodes:
+		for ii:MotifControl in i.motif_controls:
+			var related_patterns_size = reader.read_int()
+			for iii in range(related_patterns_size):
+				var type = reader.read_int()
+				#if type == 1:
+					#var node_index = reader.read_int()
+					#ii.associated_pattern.related_patterns.append(Controller.graph.motif_nodes[node_index])
+				#elif type == 0:
+					#var pattern_index = reader.read_int()
+					#ii.associated_pattern.related_patterns.append(song.patterns[pattern_index])
+				if type == 1:
+					var node_index = Controller.graph.motif_nodes[reader.read_int()]
+					if !ii.associated_pattern.related_patterns.has(node_index):
+						ii.associated_pattern.related_patterns.append(node_index)
+				elif type == 0:
+					var pattern_index = song.patterns[reader.read_int()]
+					if !ii.associated_pattern.related_patterns.has(pattern_index):
+						ii.associated_pattern.related_patterns.append(pattern_index)
+
+func old_v1_my_tool_load(reader,song):
+	## TODO: first, just make variables of all the read_int() calls. Then figure out which ones can be assigned immediately and which need to be stored to variables.
+	var motif_nodes_size = reader.read_int()
+	
+	for i in Controller.graph.motif_nodes:
+		i.free()
+	Controller.graph.motif_nodes.clear()
+	
+	for i in range(motif_nodes_size):
+		var new_node :MotifNode= load("res://myproject/GraphNode.tscn").instantiate()
+
+		Controller.graph.create_motif_node(false,new_node) ## TODO: Figure out best thing to do here to actually spawn them.
+		new_node.name = reader.read_string()
+		
+		new_node.position_offset.x = reader.read_int()
+		new_node.position_offset.y = reader.read_int()
+		
+		
+		new_node.motif_name = reader.read_string()
+		new_node.current_key = reader.read_int()
+		new_node.current_mode = reader.read_int()
+		#var time_signature : Vector2i
+		#time_signature.x = reader.read_int()
+		#time_signature.y = reader.read_int()
+		new_node.bpm = reader.read_int()
+		new_node.pattern_size.x = reader.read_int()
+		new_node.pattern_size.y = reader.read_int()
+		
+		new_node.default_chord_progression = reader.read_string()
+		new_node.additional_description = reader.read_string()
+		
+		var associated_pattern_index = reader.read_int()
+		var associated_pattern_2_index = reader.read_int()
+		new_node.associated_pattern = song.patterns[associated_pattern_index]
+		new_node.associated_pattern_2 = song.patterns[associated_pattern_2_index]
+		
+		#var image_labels_size = reader.read_int()
+		#for ii in range(image_labels_size):
+			#var image_label :ImageLabel= load("res://myproject/image_label.tscn").instantiate()
+			#new_node.image_label_container.add_child(image_label)
+			#image_label.title = reader.read_string()
+		
+	var connections_size = reader.read_int()
+	Controller.graph.connections_dict.clear()
+	for i in range(connections_size):
+		Controller.graph.connections_dict.append([reader.read_string(),reader.read_int(),reader.read_string(),reader.read_int()])
+	#for integer in range(motif_nodes_size):
+		#var i := MotifNode.new()
+		#song.motif_nodes.append(i)
+	#
+		#for integer2 in range(image_labels_size):
+			#i.image_labels.append(ImageLabel.new())
+	
+	Controller.graph.scroll_offset.x = reader.read_float()
+	Controller.graph.scroll_offset.y = reader.read_float()
+	Controller.graph.zoom = reader.read_float()
 
 
 class SongFileReader extends RefCounted:
 	const SEPARATOR := ","
+	const STRING_SEPARATOR := "`"
 
 	var _path: String = ""
 	var _contents: String = ""
@@ -328,6 +449,45 @@ class SongFileReader extends RefCounted:
 		
 		return _next_value.to_int()
 	
+	func read_string() -> String:
+		_next_value = ""
+		
+		while not _end_reached:
+			var token := _contents[_offset] ## I think this gets the character at the index _offset.
+			if token == STRING_SEPARATOR:
+				break
+			_next_value += token
+			_offset += 1
+			
+			if _offset >= _contents.length():
+				_end_reached = true
+			
+		if not _end_reached:
+			_offset += 1
+			if _offset >= _contents.length():
+				_end_reached = true
+
+		return _next_value
+
+	func read_float() -> float:
+		_next_value = ""
+		
+		while not _end_reached:
+			var token := _contents[_offset]
+			if token == SEPARATOR:
+				break
+			_next_value += token
+			_offset += 1
+			
+			if _offset >= _contents.length():
+				_end_reached = true
+		
+		if not _end_reached:
+			_offset += 1 # Move past the separator.
+			if _offset >= _contents.length():
+				_end_reached = true
+		
+		return _next_value.to_float()
 	
 	func get_read_remainder() -> int:
 		return _contents.length() - _offset

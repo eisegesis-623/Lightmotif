@@ -296,8 +296,27 @@ func start_playback() -> void:
 	if _music_playing:
 		return
 	
-	if _pattern_time == -1:
-		_pattern_time = 0
+	#if _pattern_time == -1:
+		#_pattern_time = 0
+	_pattern_time = 0
+	
+	_music_playing = true
+	
+	_driver.timer_interval.connect(_playback_step)
+	_driver.resume() # Unpauses if it was paused, does nothing otherwise.
+	playback_started.emit()
+
+
+
+func start_playback_at_position() -> void:
+	if _music_playing:
+		return
+	
+	#if _pattern_time == -1:
+		#_pattern_time = 0
+	
+	_pattern_time = Controller.get_tree().get_first_node_in_group("NoteMap")._get_cell_at_cursor().x
+	
 	_music_playing = true
 	
 	_driver.timer_interval.connect(_playback_step)

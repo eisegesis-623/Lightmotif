@@ -72,6 +72,7 @@ var _controls_blocker: PopupManager.PopupControl = null
 
 var _controls_locked: bool = false
 
+@onready var graph := get_tree().get_first_node_in_group("Graph")
 
 func _init() -> void:
 	settings_manager = SettingsManager.new()
@@ -95,6 +96,8 @@ func _ready() -> void:
 	get_window().set_script(MAIN_WINDOW_SCRIPT)
 	
 	music_player.initialize_driver()
+	
+
 
 
 func _notification(what: int) -> void:
@@ -109,6 +112,12 @@ func _notification(what: int) -> void:
 			_controls_blocker.queue_free()
 
 
+func play_pause():
+	if music_player.is_playing():
+		music_player.pause_playback()
+	else:
+		music_player.start_playback()
+
 func _shortcut_input(event: InputEvent) -> void:
 	if _controls_locked:
 		return
@@ -117,11 +126,14 @@ func _shortcut_input(event: InputEvent) -> void:
 		io_manager.check_song_on_exit()
 	
 	elif event.is_action_pressed("bosca_pause", false, true):
+		play_pause()
+		
+		get_viewport().set_input_as_handled()
+	
+	elif event.is_action_pressed("bosca_play_from_cursor"):
 		if music_player.is_playing():
 			music_player.pause_playback()
-		else:
-			music_player.start_playback()
-		
+		music_player.start_playback_at_position()
 		get_viewport().set_input_as_handled()
 	
 	elif event.is_action_pressed("bosca_save", false, true):
@@ -151,6 +163,63 @@ func _shortcut_input(event: InputEvent) -> void:
 		
 		get_viewport().set_input_as_handled()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.is_pressed():
+		var note := 0
+		match event.key_label:
+			KEY_A:
+				note = 48
+			KEY_W:
+				note = 49
+			KEY_S:
+				note = 50
+			KEY_E:
+				note = 51
+			KEY_D:
+				note = 52
+			KEY_F:
+				note = 53
+			KEY_T:
+				note = 54
+			KEY_G:
+				note = 55
+			KEY_Y:
+				note = 56
+			KEY_H:
+				note = 57
+			KEY_U:
+				note = 58
+			KEY_J:
+				note = 59
+			KEY_K:
+				note = 60
+			KEY_O:
+				note = 61
+			KEY_L:
+				note = 62
+			KEY_P:
+				note = 63
+			KEY_SEMICOLON:
+				note = 64
+			KEY_APOSTROPHE:
+				note = 65
+			_:
+				return
+		music_player.play_note(Pattern.new(),Vector3i(note,0,2))
+
+#func _update_active_key(key: int) -> void:
+	#if _active_key == key:
+		#return
+#
+	#_active_key = key
+	#var note_length := NOTE_LENGTH
+	#if is_drumkit:
+		#note_length = NOTE_LENGTH * 2
+	#
+	#
+	### HERE!!!
+	#Controller.music_player.play_note(_active_key, note_length)
+	#queue_redraw()
 
 # Navigation.
 
@@ -849,3 +918,8 @@ func set_song_swing(value: int) -> void:
 	)
 	
 	state_manager.commit_state_change(song_state)
+
+
+func _process(delta) -> void:
+	#current_song.graph.motif_nodes = get_tree().get_nodes_in_group("MotifNode")
+	graph = get_tree().get_first_node_in_group("Graph")

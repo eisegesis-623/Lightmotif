@@ -1,0 +1,45 @@
+For V2, move as much information as possible into Pattern. Have GraphNode options communicate directly with Patterns. Allow for an arbitrary number of patterns per GraphNode. Multiple GraphNodes can have the same patterns.
+
+Patterns could have Categories assigned to them directly. Categories are defined globally and can be added/removed at runtime. GraphNodes can also have categories--are these the same as the Pattern Categories or unique? (Probably unique to GraphNodes.)
+
+(verdict: please no I don't want to have to do this!!): Perhaps using the Arrangement tech for GraphNodes would work? Each GraphNode could be like a unique Arrangement. (Could be cool, but probably too much work and not worth it.)
+
+(verdict: consider this after all other functionality is done. Requires messing around with it to see if it's feasible/useful.) GraphNodes can connect from each Pattern, or just themselves. (Should the pattern connections be global and automatic??)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pretty sure that to save data I need to:
+	A) Either get the new data into a Song object, or otherwise get that data into the SongSaver._write() method
+	B) Add new steps to the _write() method in SongSaver.
+	C) Likely also add steps to a load method, too. Seems to be SongLoader.
+
+The file format is a series of integers written by the SongSaver._write() method. This is very simple to edit: just change the _write method.
+
+SongLoader checks each comma-separated integer. Every time the read_int() method is called, it ticks 1 time to look at the next.
+Furthermore, it takes some important information (such as "how many patterns there are") to be able to properly loop through the variable numbers of integers depending on the file size.

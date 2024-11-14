@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://wdnhw8q4rl0q"]
+
+[ext_resource type="Script" path="res://myproject/Graph.gd" id="1_vxm2u"]
+
+[sub_resource type="GDScript" id="GDScript_al262"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_pressed() -> void:
+	Controller.io_manager.load_ceol_song()
+"
+
+[node name="VBoxContainer" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ReplaceWithRightClick??" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+text = "Add Node"
+
+[node name="LoadButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "Load"
+script = SubResource("GDScript_al262")
+
+[node name="GraphEdit" type="GraphEdit" parent="." groups=["Graph"]]
+layout_mode = 2
+size_flags_vertical = 3
+show_grid = false
+right_disconnects = true
+zoom_min = 0.01
+minimap_opacity = 0.25
+show_zoom_label = true
+show_grid_buttons = false
+show_minimap_button = false
+show_arrange_button = false
+script = ExtResource("1_vxm2u")
+
+[connection signal="pressed" from="HBoxContainer/ReplaceWithRightClick??" to="GraphEdit" method="on_pressed"]
+[connection signal="pressed" from="HBoxContainer/LoadButton" to="HBoxContainer/LoadButton" method="_on_pressed"]
+[connection signal="connection_request" from="GraphEdit" to="GraphEdit" method="_on_connection_request"]
+[connection signal="disconnection_request" from="GraphEdit" to="GraphEdit" method="_on_disconnection_request"]

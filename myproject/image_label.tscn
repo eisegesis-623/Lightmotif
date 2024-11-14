@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvcs13ny2qvws"]
+
+[ext_resource type="Script" path="res://myproject/ImageLabel.gd" id="1_n322d"]
+[ext_resource type="Texture2D" uid="uid://cq5bt0qijq3pi" path="res://icon.png" id="1_vnbsj"]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_n322d")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Image Name"
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_vnbsj")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="TextureRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+text = "Edit"
+
+[node name="Button2" type="Button" parent="TextureRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+text = "Delete"
+
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="TextureRect/HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="TextureRect/HBoxContainer/Button2" to="." method="_on_button_2_pressed"]

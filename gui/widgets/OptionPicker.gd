@@ -150,6 +150,8 @@ func set_selected(item: OptionListPopup.Item) -> void:
 	_selected_option = item
 	_update_label()
 
+func my_custom_select(item):
+	_accept_selected(options[item])
 
 func select_next() -> void:
 	if options.size() == 0: # Option list is empty, there is nothing to select.

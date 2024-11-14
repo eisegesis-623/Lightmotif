@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://gui/views/note_map/NoteMapOverlay.gd" id="6_20i0e"]
 [ext_resource type="Texture2D" uid="uid://n8jw4gat8tg7" path="res://assets/icons/arrow_down_small.png" id="7_oqrjh"]
 
-[node name="NoteMap" type="Control"]
+[node name="NoteMap" type="Control" groups=["NoteMap"]]
 auto_translate_mode = 1
 clip_contents = true
 custom_minimum_size = Vector2(0, 280)

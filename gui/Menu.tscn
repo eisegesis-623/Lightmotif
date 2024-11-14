@@ -143,11 +143,11 @@ theme_type_variation = &"MenuContentsPanel"
 
 [node name="FileView" parent="Contents" instance=ExtResource("5_6f3ft")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="ArrangementView" parent="Contents" instance=ExtResource("6_0weha")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="InstrumentView" parent="Contents" instance=ExtResource("7_32hp6")]

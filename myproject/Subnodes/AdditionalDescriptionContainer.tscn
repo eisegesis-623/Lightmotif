@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://day31cif7y5i7"]
+
+[ext_resource type="Texture2D" uid="uid://duqkjr1s1hhx8" path="res://myproject/trashcan.png" id="1_hxg37"]
+
+[node name="AdditionalDescriptionContainer" type="VBoxContainer"]
+offset_right = 377.0
+offset_bottom = 210.0
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Description Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="AdditionalDescription" type="TextEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Placeholder Text"
+wrap_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+icon = ExtResource("1_hxg37")

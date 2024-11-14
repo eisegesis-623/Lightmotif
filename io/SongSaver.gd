@@ -95,9 +95,101 @@ static func _write(writer: SongFileWriter, song: Song) -> void:
 		for j in Arrangement.CHANNEL_NUMBER:
 			writer.write_int(channels[j])
 
+	## Starting MYTOOL
+	save_global_parameters(writer,song)
+	save_motif_nodes(writer,song)
+
+static func save_global_parameters(writer:SongFileWriter,song:Song):
+	pass
+
+static func save_motif_nodes(writer:SongFileWriter,song:Song):
+	writer.write_int(Controller.graph.motif_nodes.size())
+	for i:MotifNode in Controller.graph.motif_nodes:
+		writer.write_string(i.name)
+		writer.write_int(i.position_offset.x)
+		writer.write_int(i.position_offset.y)
+		
+		writer.write_string(i.graph_node_name_edit.text)
+		writer.write_string(i.chord_progression_edit.text)
+		writer.write_string(i.notes_edit.text)
+		
+		writer.write_int(i.motif_controls.size())
+		for ii :MotifControl in i.motif_controls:
+			writer.write_int(ii.associated_pattern.index)
+			writer.write_string(ii.associated_pattern.motif_name)
+			writer.write_string(ii.associated_pattern.time_signature)
+			writer.write_int(ii.associated_pattern.motif_bpm)
+			writer.write_int(ii.associated_pattern.pattern_length.x)
+			writer.write_int(ii.associated_pattern.pattern_length.y)
+			writer.write_int(ii.associated_pattern.key)
+			writer.write_int(ii.associated_pattern.scale_mode)
+			writer.write_string(ii.associated_pattern.additional_description)
+		pass
+	## Starting another loop just to make things easier to keep track of with SongLoader, which requires another loop.
+	for i:MotifNode in Controller.graph.motif_nodes:
+		for ii :MotifControl in i.motif_controls:
+			writer.write_int(ii.associated_pattern.related_patterns.size())
+			for iii in ii.associated_pattern.related_patterns:
+				if iii is GraphNode:
+					writer.write_int(1)
+					writer.write_int(Controller.graph.motif_nodes.find(iii))
+				elif iii is Pattern:
+					writer.write_int(0)
+					writer.write_int(iii.index)
+				#writer.write_int()
+	pass
+
+
+
+func old_v1_my_tool_save_(writer,song):
+	#(This is entirely demo stuff for now, just getting a feel for it.)
+	writer.write_int(Controller.graph.motif_nodes.size())
+	for i in Controller.graph.motif_nodes:
+		writer.write_string(i.name)
+		
+		
+		writer.write_int(i.position_offset.x)
+		writer.write_int(i.position_offset.y)
+		
+		
+		writer.write_string(i.motif_name)
+		
+		writer.write_int(i.current_key)
+		writer.write_int(i.current_mode)
+		#writer.write_int(i.time_signature.x)
+		#writer.write_int(i.time_signature.y)
+		writer.write_int(i.bpm)
+		writer.write_int(i.pattern_size.x)
+		writer.write_int(i.pattern_size.y)
+		
+		writer.write_string(i.default_chord_progression)
+		## TODO something something additional categories
+		writer.write_string(i.additional_description)
+		
+		writer.write_int(song.patterns.find(i.associated_pattern))
+		
+		if is_instance_valid(i.associated_pattern_2):
+			writer.write_int(song.patterns.find(i.associated_pattern_2))
+		else:
+			writer.write_int(-1)
+		
+	writer.write_int(Controller.graph.connections_dict.size())
+	for ii in Controller.graph.connections_dict.size():
+		writer.write_string(Controller.graph.connections_dict[ii][0])
+		writer.write_int(Controller.graph.connections_dict[ii][1])
+		writer.write_string(Controller.graph.connections_dict[ii][2])
+		writer.write_int(Controller.graph.connections_dict[ii][3])
+		#writer.write_int(i.image_labels.size())
+		#for ii : ImageLabel in i.image_labels:
+			#writer.write_string(ii.title)
+	
+	writer.write_float(Controller.graph.scroll_offset.x)
+	writer.write_float(Controller.graph.scroll_offset.y)
+	writer.write_float(Controller.graph.zoom)
 
 class SongFileWriter extends RefCounted:
 	const SEPARATOR := ","
+	const STRING_SEPARATOR := "`"
 	
 	var _path: String = ""
 	var _contents: String = ""
@@ -117,3 +209,12 @@ class SongFileWriter extends RefCounted:
 	
 	func write_int(value: int) -> void:
 		_contents += ("%d" % value) + SEPARATOR
+	
+	func write_float(value:float)->void:
+		print(value)
+		#_contents += ("%d"%value) + SEPARATOR
+		_contents += (str(value)) + SEPARATOR
+
+	func write_string(value:String)->void:
+		value = value.replace("`","")
+		_contents += (value) + STRING_SEPARATOR

@@ -52,6 +52,37 @@ var is_playing: bool = false
 var active_note_span: PackedInt32Array = PackedInt32Array()
 var _active_note_counts: Dictionary = {}
 
+@export var motif_name := "New Pattern"#:
+	#set(value):
+		#var i := 0
+		#var number := 1
+		#var default_name 
+		#while i < Controller.current_song.patterns.size():
+			#if Controller.current_song.patterns[i].motif_name == value:
+				#i = 0
+				#number += 1
+				#value = motif_name + str(number)
+				#print(value)
+			#else:
+				#i += 1
+		#motif_name = value
+		## TODO: currently this makes something like "22" instead of "3". FIXME.
+		## TODO: FIXME: Commented out this code, but with it enabled "re-loading" a file causes strange naming things. Determine where the duplication(?) is coming from!!!!
+
+@export var motif_bpm := 120
+@export var pattern_length := Vector2i(32,128)
+@export var time_signature := "4/4"
+var scale_mode := 5
+var additional_description := ""
+var related_patterns : Array ## Can be Array[Pattern] or Array[GraphNode]
+
+## Shortcut to access the pattern's index.
+@export var index :int:
+	#set(value):
+		#index = Controller.current_song.patterns.find(self)
+	get:
+		return Controller.current_song.patterns.find(self)
+
 
 func _init() -> void:
 	for i in MAX_NOTE_NUMBER:

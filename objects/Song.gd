@@ -4,14 +4,13 @@
 # Provided under MIT                              #
 ###################################################
 
-## A container for all composition and playback details of an individual
-## Bosca Ceoil song.
+## A container for all composition and playback details of an individual Bosca Ceoil song.
 class_name Song extends Resource
 
 signal song_changed()
 
 const FILE_FORMAT := 3
-const FILE_EXTENSION := "ceol"
+const FILE_EXTENSION := "motif"
 const FILE_DEFAULT_NAME := "new_song"
 
 # These numbers are probably limited by the MIDI specification. For example, instruments
@@ -20,7 +19,7 @@ const MAX_INSTRUMENT_COUNT := 16
 const MAX_PATTERN_COUNT := 4096
 
 const DEFAULT_PATTERN_SIZE := 16
-const MAX_PATTERN_SIZE := 32
+const MAX_PATTERN_SIZE := 256
 const DEFAULT_BAR_SIZE := 4
 
 const DEFAULT_BPM := 120
@@ -70,6 +69,11 @@ const MAX_BPM := 220
 @export var patterns: Array[Pattern] = []
 ## Arrangement of the song.
 @export var arrangement: Arrangement = Arrangement.new()
+
+# MyTool
+## TODO: Connections and things
+#var motif_nodes: Array[Node] = []
+#var graph
 
 # Runtime properties.
 

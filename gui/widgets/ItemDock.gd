@@ -59,6 +59,7 @@ func _ready() -> void:
 	
 	_delete_area.set_drag_forwarding(Callable(), _can_drop_data_fw, _drop_data_fw)
 	_add_button.pressed.connect(item_created.emit)
+	
 
 
 func _gui_input(event: InputEvent) -> void:

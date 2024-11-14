@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://b74a1eyi36y8m"]
+
+[ext_resource type="Script" path="res://myproject/Subnodes/RelatedMotifControl.gd" id="1_uhxvf"]
+[ext_resource type="Texture2D" uid="uid://duqkjr1s1hhx8" path="res://myproject/trashcan.png" id="2_n5woc"]
+
+[node name="RelatedMotifControl" type="VBoxContainer"]
+script = ExtResource("1_uhxvf")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Thing"
+
+[node name="DeleteButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+icon = ExtResource("2_n5woc")
+
+[node name="SelectButton" type="Button" parent="."]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Pattern Name Example goes here"
+autowrap_mode = 3
+
+[connection signal="pressed" from="HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
+[connection signal="pressed" from="SelectButton" to="." method="_on_button_pressed"]

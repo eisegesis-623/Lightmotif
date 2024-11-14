@@ -303,7 +303,22 @@ func _update_song_sizes() -> void:
 	bar_size = Controller.current_song.bar_size
 	
 	var available_rect := get_available_rect()
-	var effective_pattern_size := 16 if pattern_size <= 16 else 32
+	#var effective_pattern_size := 16 if pattern_size <= 16 else 32
+	var effective_pattern_size :int
+	if pattern_size <= 16:
+		effective_pattern_size = 16
+		print(16)
+	elif pattern_size <= 32:
+		effective_pattern_size = 32
+		print(32)
+	elif pattern_size <= 64:
+		effective_pattern_size = 64
+		print(64)
+	elif pattern_size <= 128:
+		effective_pattern_size = 128
+		print(128)
+	else:
+		effective_pattern_size = 256
 	_note_width = available_rect.size.x / effective_pattern_size
 	_overlay.note_unit_width = _note_width
 	

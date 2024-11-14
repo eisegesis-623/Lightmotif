@@ -6,10 +6,9 @@
 
 extends MarginContainer
 
+func _enter_tree() -> void:
+	# Ensure that the minimum size of the UI is respected and the main window cannot go any lower.
+	get_window().wrap_controls = true
 
 func _ready() -> void:
-	if not Engine.is_editor_hint():
-		#Controller.help_manager.reference_node(HelpManager.StepNodeRef.ARRANGEMENT_EDITOR_VIEW, get_global_rect)
-
-		#Controller.io_manager.initialize_song() # TODO TEMP FIX
-		pass
+	Controller.io_manager.initialize_song()

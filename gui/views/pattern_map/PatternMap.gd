@@ -54,6 +54,9 @@ var _note_border_width: int = 0
 
 
 func _ready() -> void:
+	#if get_tree().root == self:
+	#Controller.io_manager.create_new_song_safe()
+	
 	set_physics_process(false)
 	
 	_update_theme()
@@ -665,6 +668,19 @@ func _get_pattern_at_cursor() -> int:
 	return current_arrangement.timeline_bars[bar_index][cell.y]
 
 
+
+
+
+func _select_pattern_at_cursor() -> void:
+	if not current_arrangement || not Controller.current_song:
+		return
+	
+	var pattern_idx := _get_pattern_at_cursor()
+	if pattern_idx < 0:
+		return
+	
+	Controller.edit_pattern(pattern_idx)
+
 func _set_pattern_at_cursor(pattern_idx: int) -> void:
 	if not current_arrangement || not Controller.current_song:
 		return
@@ -692,18 +708,6 @@ func _set_pattern_at_cursor(pattern_idx: int) -> void:
 	
 	Controller.state_manager.commit_state_change(arrangement_state)
 
-
-func _select_pattern_at_cursor() -> void:
-	if not current_arrangement || not Controller.current_song:
-		return
-	
-	var pattern_idx := _get_pattern_at_cursor()
-	if pattern_idx < 0:
-		return
-	
-	Controller.edit_pattern(pattern_idx)
-
-
 func _clear_pattern_at_cursor() -> void:
 	if not current_arrangement || not Controller.current_song:
 		return
@@ -730,6 +734,7 @@ func _clear_pattern_at_cursor() -> void:
 	)
 	
 	Controller.state_manager.commit_state_change(arrangement_state)
+	print(str(bar_index)+str(cell.y))
 
 
 func _clone_pattern_at_cursor() -> void:

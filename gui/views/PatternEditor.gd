@@ -12,6 +12,8 @@ var current_pattern: Pattern = null
 @onready var _instrument_picker: OptionPicker = %InstrumentPicker
 @onready var _scale_picker: OptionPicker = %ScalePicker
 @onready var _key_picker: OptionPicker = %KeyPicker
+#@onready var pattern_picker: OptionPicker = %PatternPicker
+
 
 @onready var _record_instrument: Button = %RecordInstrument
 @onready var _record_instrument_label: Label = %RecordInstrumentLabel

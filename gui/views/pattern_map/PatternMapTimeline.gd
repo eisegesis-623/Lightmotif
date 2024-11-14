@@ -27,6 +27,8 @@ var _shadow_color: Color = Color.WHITE
 
 
 func _ready() -> void:
+
+	
 	_update_theme()
 	theme_changed.connect(_update_theme)
 

@@ -23,10 +23,11 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
 offset_right = -16.0
-offset_bottom = 0.0
+offset_bottom = 36.0
 
 [node name="AddItem" parent="." instance=ExtResource("3_g3e56")]
 unique_name_in_owner = true
+physics_interpolation_mode = 2
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -34,7 +35,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -84.0
-offset_top = -36.0
+offset_top = -44.0
 offset_right = 84.0
 offset_bottom = -8.0
 grow_horizontal = 2

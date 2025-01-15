@@ -280,6 +280,91 @@ static func _load_v3(reader: SongFileReader) -> Song:
 	load_motif_nodes(reader,song)
 	return song
 
+static func _load_v4(reader: SongFileReader) -> Song:
+	var song := Song.new()
+	song.format_version = reader.get_version()
+	song.filename = reader.get_path()
+	
+	# Basic information.
+
+	song.swing = reader.read_int()
+	song.global_effect = reader.read_int()
+	song.global_effect_power = reader.read_int()
+
+	song.bpm = reader.read_int()
+	song.pattern_size = reader.read_int()
+	song.bar_size = reader.read_int()
+	
+	# Instruments.
+	
+	var instrument_count := reader.read_int()
+	for i in instrument_count:
+		var voice_index := reader.read_int()
+		var voice_data := Controller.voice_manager.get_voice_data_at(voice_index)
+		var instrument := Controller.instance_instrument_by_voice(voice_data)
+		
+		instrument.voice_index = voice_index
+		reader.read_int() # Empty read, we can determine the type by voice data.
+		reader.read_int() # Empty read, we use the color palette from reference data.
+		instrument.lp_cutoff = reader.read_int()
+		instrument.lp_resonance = reader.read_int()
+		instrument.volume = reader.read_int()
+		instrument.update_filter()
+		
+		song.instruments.push_back(instrument)
+	
+	# Patterns.
+	
+	var pattern_count := reader.read_int()
+	for i in pattern_count:
+		var pattern := Pattern.new()
+		
+		pattern.key = reader.read_int()
+		pattern.scale = reader.read_int()
+		pattern.instrument_idx = reader.read_int()
+		reader.read_int() # Empty read, we can determine the color palette by the instrument.
+		
+		var note_amount := reader.read_int()
+		for j in note_amount:
+			var note_value := reader.read_int()
+			var note_length := reader.read_int()
+			var note_position := reader.read_int()
+			reader.read_int() # Empty read, this value is unused.
+			pattern.add_note(note_value, note_position, note_length, false)
+		
+		pattern.sort_notes()
+		pattern.reindex_active_notes()
+		
+		pattern.record_instrument = (reader.read_int() == 1)
+		if pattern.record_instrument:
+			for j in 16: # Due to a bug, only first 16 notes record their advanced filter values.
+				pattern.recorded_instrument_values[j].x = reader.read_int() # Volume
+				pattern.recorded_instrument_values[j].y = reader.read_int() # Cutoff
+				pattern.recorded_instrument_values[j].z = reader.read_int() # Resonance
+		
+		song.patterns.push_back(pattern)
+	
+	# Arrangement.
+	
+	song.arrangement.timeline_length = reader.read_int()
+	song.arrangement.loop_start = reader.read_int()
+	song.arrangement.loop_end = reader.read_int()
+	
+	for i in song.arrangement.timeline_length:
+		var channels := song.arrangement.timeline_bars[i]
+		for j in Arrangement.CHANNEL_NUMBER:
+			channels[j] = reader.read_int()
+		song.arrangement.timeline_bars[i] = channels
+	
+	#var remainder := reader.get_read_remainder()
+	#if remainder > 0:
+		#printerr("SongLoader: Invalid song file at '%s' contains excessive data (%d)." % [ reader.get_path(), remainder ])
+	
+	## Starting MYTOOL
+	load_global_parameters(reader)
+	load_motif_nodes(reader,song)
+	return song
+
 static func load_global_parameters(reader:SongFileReader):
 	pass
 

@@ -9,7 +9,7 @@ class_name Song extends Resource
 
 signal song_changed()
 
-const FILE_FORMAT := 3
+const FILE_FORMAT := 4
 const FILE_EXTENSION := "motif"
 const FILE_DEFAULT_NAME := "new_song"
 

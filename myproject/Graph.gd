@@ -59,5 +59,5 @@ func _on_delete_unused_motifs_pressed() -> void:
 			pass
 	for i : Pattern in patterns_to_delete:
 		print(i.motif_name)
-		## FIXME: This is determining that there's some sort of mismatch going on with associated_pattern. Might be related to the right thing not being selected in the dropdown.
+		Controller.delete_pattern(i.index)
 	pass # Replace with function body.

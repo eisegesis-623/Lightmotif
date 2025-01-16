@@ -29,6 +29,8 @@ static func load(path: String) -> Song:
 		return _load_v2(reader)
 	if reader.get_version() == 3:
 		return _load_v3(reader)
+	if reader.get_version() == 4:
+		return _load_v4(reader)
 	
 	printerr("SongLoader: The song file at '%s' has unsupported version %d, an empty song is created instead." % [ path, reader.get_version() ])
 	return Song.create_default_song()

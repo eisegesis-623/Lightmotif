@@ -362,7 +362,62 @@ static func _load_v4(reader: SongFileReader) -> Song:
 	
 	## Starting MYTOOL
 	load_global_parameters(reader)
-	load_motif_nodes(reader,song)
+	
+	var motif_nodes_size = reader.read_int()
+	for i in Controller.graph.motif_nodes:
+		i.free()
+	Controller.graph.motif_nodes.clear()
+	
+	for i in range(motif_nodes_size):
+		var new_node :MotifNode= load("res://myproject/GraphNode.tscn").instantiate()
+		Controller.graph.create_motif_node(false,new_node)
+		new_node.name = reader.read_string()
+		new_node.position_offset.x = reader.read_int()
+		new_node.position_offset.y = reader.read_int()
+		
+		new_node.graph_node_name_edit.text = reader.read_string()
+		new_node.chord_progression_edit.text = reader.read_string()
+		new_node.notes_edit.text = reader.read_string()
+		
+		var motif_controls_size = reader.read_int()
+		for ii in range(motif_controls_size):
+			var motif_control := new_node.add_motif_control()
+			
+			var pattern_index = reader.read_int()
+			motif_control.leitmotifs_option.get_song_patterns(song)
+			motif_control.leitmotifs_option.set_selected(pattern_index,song)
+			
+			motif_control.associated_pattern.motif_name = reader.read_string()
+			motif_control.associated_pattern.time_signature = reader.read_string()
+			
+			motif_control.associated_pattern.motif_bpm = reader.read_int()
+			motif_control.associated_pattern.pattern_length.x = reader.read_int()
+			motif_control.associated_pattern.pattern_length.y = reader.read_int()
+			motif_control.associated_pattern.key = reader.read_int()
+			motif_control.associated_pattern.scale_mode = reader.read_int()
+			
+			motif_control.associated_pattern.additional_description = reader.read_string()
+			
+	## Later, once all nodes have been added...
+	for i in Controller.graph.motif_nodes:
+		for ii:MotifControl in i.motif_controls:
+			var related_patterns_size = reader.read_int()
+			for iii in range(related_patterns_size):
+				var type = reader.read_int()
+				#if type == 1:
+					#var node_index = reader.read_int()
+					#ii.associated_pattern.related_patterns.append(Controller.graph.motif_nodes[node_index])
+				#elif type == 0:
+					#var pattern_index = reader.read_int()
+					#ii.associated_pattern.related_patterns.append(song.patterns[pattern_index])
+				if type == 1:
+					var node_index = Controller.graph.motif_nodes[reader.read_int()]
+					if !ii.associated_pattern.related_patterns.has(node_index):
+						ii.associated_pattern.related_patterns.append(node_index)
+				elif type == 0:
+					var pattern_index = song.patterns[reader.read_int()]
+					if !ii.associated_pattern.related_patterns.has(pattern_index):
+						ii.associated_pattern.related_patterns.append(pattern_index)
 	return song
 
 static func load_global_parameters(reader:SongFileReader):

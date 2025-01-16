@@ -5,6 +5,10 @@ It has been some time since last I looked at this project. Here is what I recall
 - I had a slightly jury-rigged solution to avoiding commas (actually '`' I think but whatever) in strings. The PROPER way to solve this would be to keep track of the number of characters in a string and ignore commas if they're in that range. However, the current solution (replacing the `s as they appear) probably works well enough for now.
 - There was probably more but I don't remember at the moment. Regardless, some study of the existing setup to relearn the exact flow of what's happening is necessary. Notes on this (and potential issues) will follow.
 
+Additional Features
+- A way to clear unused motifs
+
+
 NOTES ON THE CURRENT FLOW
 - 
 

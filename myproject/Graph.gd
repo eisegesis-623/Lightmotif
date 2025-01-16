@@ -40,4 +40,20 @@ func focus_on_graphnode(graphnode:MotifNode):
 
 
 func _on_delete_unused_motifs_pressed() -> void:
+	var patterns_to_delete : Array[Pattern] = Controller.current_song.patterns
+	for i : Pattern in Controller.current_song.patterns:
+		#print("Looping i")
+		for ii : MotifNode in motif_nodes:
+			#print("Looping ii")
+			for iii in ii.motif_controls:
+				#print("Looping iii")
+				if i == iii.associated_pattern:
+					patterns_to_delete.erase(i)
+					print(i.motif_name + " has been erased.")
+					#continue
+				pass
+			pass
+	for i : Pattern in patterns_to_delete:
+		print(i.motif_name)
+		## FIXME: This is determining that there's some sort of mismatch going on with associated_pattern. Might be related to the right thing not being selected in the dropdown.
 	pass # Replace with function body.

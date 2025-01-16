@@ -1,0 +1,23 @@
+Initial Concerns 1/15/2025
+It has been some time since last I looked at this project. Here is what I recall about my hesitation.
+- I recall concerns regarding something to do with undoing, or maybe deleting, or some objects not being fully in the scene while stilll being saved, or something like that.
+- Generally just concerned about the file format being easily corrupted. Fortunately I am pretty sure it should be salvagable (it is SORT OF human-readable) but I'd still like to avoid that.
+- I had a slightly jury-rigged solution to avoiding commas (actually '`' I think but whatever) in strings. The PROPER way to solve this would be to keep track of the number of characters in a string and ignore commas if they're in that range. However, the current solution (replacing the `s as they appear) probably works well enough for now.
+- There was probably more but I don't remember at the moment. Regardless, some study of the existing setup to relearn the exact flow of what's happening is necessary. Notes on this (and potential issues) will follow.
+
+Additional Features
+- (COMPLETE 1/16/2025) A way to clear unused motifs
+
+NOTES ON THE CURRENT FLOW
+- 
+
+CONCERNS ABOUT THE CURRENT FLOW
+- 
+
+
+
+
+Name Options:
+	Trackmotif
+	Lightmotif
+	Clearmotif

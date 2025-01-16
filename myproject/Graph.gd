@@ -37,3 +37,27 @@ func on_pressed() -> void:
 func focus_on_graphnode(graphnode:MotifNode):
 	scroll_offset = graphnode.position_offset
 	
+
+
+func _on_delete_unused_motifs_pressed() -> void:
+	var patterns_to_delete : Array[Pattern]
+	for i in Controller.current_song.patterns:
+		patterns_to_delete.append(i)
+	
+	
+	for i : Pattern in Controller.current_song.patterns:
+		#print("Looping i")
+		for ii : MotifNode in motif_nodes:
+			#print("Looping ii")
+			for iii in ii.motif_controls:
+				#print("Looping iii")
+				if i == iii.associated_pattern:
+					patterns_to_delete.erase(i)
+					print(i.motif_name + " has been erased.")
+					#continue
+				pass
+			pass
+	for i : Pattern in patterns_to_delete:
+		print(i.motif_name)
+		Controller.delete_pattern(i.index)
+	pass # Replace with function body.

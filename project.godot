@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Bosca Ceoil: The Blue Album"
+config/name="Motif Tool"
 config/description="A simple music making app."
 config/version="3.0.0"
 run/main_scene="res://myproject/PianoRoll.tscn"

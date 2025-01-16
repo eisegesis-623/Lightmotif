@@ -8,7 +8,6 @@ It has been some time since last I looked at this project. Here is what I recall
 Additional Features
 - A way to clear unused motifs
 
-
 NOTES ON THE CURRENT FLOW
 - 
 

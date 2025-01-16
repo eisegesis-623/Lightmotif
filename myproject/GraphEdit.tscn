@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://wdnhw8q4rl0q"]
+[gd_scene load_steps=4 format=3 uid="uid://wdnhw8q4rl0q"]
 
+[ext_resource type="Theme" uid="uid://celva8nqvlwac" path="res://myproject/SimpleTheme.tres" id="1_v4eh1"]
 [ext_resource type="Script" path="res://myproject/Graph.gd" id="1_vxm2u"]
 
 [sub_resource type="GDScript" id="GDScript_al262"]
@@ -29,6 +30,7 @@ grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+theme = ExtResource("1_v4eh1")
 
 [node name="ReplaceWithRightClick??" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
@@ -43,9 +45,14 @@ focus_mode = 0
 text = "Load"
 script = SubResource("GDScript_al262")
 
+[node name="DeleteUnusedMotifs" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Delete Unused Motifs"
+
 [node name="GraphEdit" type="GraphEdit" parent="." groups=["Graph"]]
 layout_mode = 2
 size_flags_vertical = 3
+scroll_offset = Vector2(0, -14)
 show_grid = false
 right_disconnects = true
 zoom_min = 0.01

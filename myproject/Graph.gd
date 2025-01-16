@@ -37,3 +37,7 @@ func on_pressed() -> void:
 func focus_on_graphnode(graphnode:MotifNode):
 	scroll_offset = graphnode.position_offset
 	
+
+
+func _on_delete_unused_motifs_pressed() -> void:
+	pass # Replace with function body.

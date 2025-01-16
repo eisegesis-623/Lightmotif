@@ -50,6 +50,8 @@ func _process(delta: float) -> void:
 	for i in associated_pattern.related_patterns:
 		if !is_instance_valid(i):
 			associated_pattern.related_patterns.erase(i)
+	
+	$Label.text = "Index: " + str(associated_pattern.index)
 
 
 

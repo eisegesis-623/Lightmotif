@@ -10,6 +10,11 @@
 theme_override_constants/separation = 8
 script = ExtResource("1_mbts8")
 
+[node name="Index_Visual" type="Label" parent="."]
+visible = false
+layout_mode = 2
+text = "Index: "
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
 layout_mode = 2
 theme_override_constants/separation = 1

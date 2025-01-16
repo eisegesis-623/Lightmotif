@@ -40,7 +40,11 @@ func focus_on_graphnode(graphnode:MotifNode):
 
 
 func _on_delete_unused_motifs_pressed() -> void:
-	var patterns_to_delete : Array[Pattern] = Controller.current_song.patterns
+	var patterns_to_delete : Array[Pattern]
+	for i in Controller.current_song.patterns:
+		patterns_to_delete.append(i)
+	
+	
 	for i : Pattern in Controller.current_song.patterns:
 		#print("Looping i")
 		for ii : MotifNode in motif_nodes:

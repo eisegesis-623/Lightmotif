@@ -13,6 +13,7 @@ func create_motif_node(first_time = false,new_node = null):
 	if new_node == null:
 		new_node = load(MOTIF_NODE_PATH).instantiate()
 	add_child(new_node,true)
+	new_node.position_offset = (scroll_offset + size / 2) / zoom - new_node.size/2
 	
 	motif_nodes.append(new_node)
 	new_node.my_delete_request.connect(_on_node_delete_request)

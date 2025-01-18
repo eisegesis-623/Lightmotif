@@ -62,3 +62,8 @@ func _on_delete_unused_motifs_pressed() -> void:
 		print(i.motif_name)
 		Controller.delete_pattern(i.index)
 	pass # Replace with function body.
+
+
+func _on_sort_alphabetically_pressed() -> void:
+	Controller.current_song.patterns.sort_custom(func(a:Pattern, b:Pattern): return a.motif_name.naturalnocasecmp_to(b.motif_name) < 0)
+	pass # Replace with function body.

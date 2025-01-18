@@ -22,9 +22,9 @@ func _on_song_loaded():
 	motif_nodes[0].selected = true
 
 func _on_node_delete_request(which):
-	_on_node_deleted(which)
+	delete_node(which)
 
-func _on_node_deleted(which:MotifNode):
+func delete_node(which:MotifNode):
 	for i in connections_dict:
 		if i[0] == which.name or i[3] == which.name:
 			connections_dict.erase(i)

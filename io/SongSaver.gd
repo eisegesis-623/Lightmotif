@@ -104,14 +104,14 @@ static func save_global_parameters(writer:SongFileWriter,song:Song):
 
 static func save_motif_nodes(writer:SongFileWriter,song:Song):
 	writer.write_int(Controller.graph.motif_nodes.size())
-	for i:MotifNode in Controller.graph.motif_nodes:
-		writer.write_string(i.name)
-		writer.write_int(i.position_offset.x)
-		writer.write_int(i.position_offset.y)
+	for i:MotifNode in Controller.graph.motif_nodes: ## MIGHT be an issue here, but a cursory examination revealed nothing.
+		writer.write_string(i.name) ## Can't see an issue here.
+		writer.write_int(i.position_offset.x) ## Can't see an issue here.
+		writer.write_int(i.position_offset.y) ## Can't see an issue here.
 		
-		writer.write_string(i.graph_node_name_edit.text)
-		writer.write_string(i.chord_progression_edit.text)
-		writer.write_string(i.notes_edit.text)
+		writer.write_string(i.graph_node_name_edit.text) ## Can't see an issue here.
+		writer.write_string(i.chord_progression_edit.text) ## Can't see an issue here.
+		writer.write_string(i.notes_edit.text) ## Can't see an issue here.
 		
 		writer.write_int(i.motif_controls.size()) ## Can't see an issue here.
 		for ii :MotifControl in i.motif_controls:
@@ -125,8 +125,9 @@ static func save_motif_nodes(writer:SongFileWriter,song:Song):
 			writer.write_int(ii.associated_pattern.scale_mode) ## Can't see an issue here.
 			writer.write_string(ii.associated_pattern.additional_description) ## Can't see an issue here.
 		pass
+		
 	## Starting another loop just to make things easier to keep track of with SongLoader, which requires another loop.
-	for i:MotifNode in Controller.graph.motif_nodes:
+	for i:MotifNode in Controller.graph.motif_nodes: ## Ditto from earlier.
 		for ii :MotifControl in i.motif_controls:
 			writer.write_int(ii.associated_pattern.related_patterns.size())
 			for iii in ii.associated_pattern.related_patterns:
